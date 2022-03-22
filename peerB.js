@@ -3,6 +3,8 @@ const peer = new Peer("501bc9d4-b4c9-419e-b7e4-afe3740df432-PEER-B", {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
 });
 
+var isCalling = false;
+
 // (B2) READY - CONNECT & SEND MESSAGE TO PEER A
 peer.on("open", (id) => {
   console.log("Your ID is " + id);
@@ -15,6 +17,11 @@ peer.on("open", (id) => {
   });
 
   conn.on("data", (data) => {
+    if (isCalling) {
+      if (data === 0) data = 1;
+      var mp4Element1 = document.getElementById("call");
+      mp4Element1.src = `video/p${data}.mp4`;
+    }
     document.getElementById("fov").innerHTML = data;
   });
 
@@ -27,12 +34,8 @@ peer.on("error", (e) => console.log(e));
 
 function callPeerA() {
   console.log("calling peer A");
-  var mp4Element1 = document.createElement("video");
-  mp4Element1.muted = true;
+  var mp4Element1 = document.getElementById("call");
   mp4Element1.src = "video/p1.mp4";
-  mp4Element1.autoplay = true;
-
-  document.body.appendChild(mp4Element1);
 
   mp4Element1.onplay = () => {
     var stream1 = mp4Element1.captureStream();
@@ -40,6 +43,7 @@ function callPeerA() {
       "501bc9d4-b4c9-419e-b7e4-afe3740df432-PEER-A",
       stream1
     );
+    isCalling = true;
   };
 }
 
