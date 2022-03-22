@@ -14,6 +14,10 @@ peer.on("open", (id) => {
     conn.send("Hi from PEER-B!");
   });
 
+  conn.on("data", (data) => {
+    document.getElementById("fov").innerHTML = data;
+  });
+
   conn.on("error", (error) => {
     console.log(error);
   });
@@ -22,6 +26,7 @@ peer.on("open", (id) => {
 peer.on("error", (e) => console.log(e));
 
 function callPeerA() {
+  console.log("calling peer A");
   var mp4Element1 = document.createElement("video");
   mp4Element1.muted = true;
   mp4Element1.src = "video/p1.mp4";
@@ -29,13 +34,17 @@ function callPeerA() {
 
   var stream1 = mp4Element1.captureStream();
   var call = peer.call("501bc9d4-b4c9-419e-b7e4-afe3740df432-PEER-A", stream1);
+
+  setInterval(() => {
+    console.log({ isCalling: call.open });
+  }, 1000);
 }
 
-document.on("ready", () => {
+window.onload = () => {
   document.getElementById("callPeerA").addEventListener("click", (e) => {
     e.preventDefault();
     callPeerA();
   });
-});
+};
 
 window.peer = peer;
