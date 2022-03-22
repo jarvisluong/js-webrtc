@@ -29,13 +29,8 @@ peer.on("call", function (call) {
     // `stream` is the MediaStream of the remote peer.
     // Here you'd add it to an HTML video/canvas element.
     console.log("streaming");
-    var mp4Element1 = document.createElement("video");
-    mp4Element1.muted = true;
-    mp4Element1.autoplay = true;
 
-    mp4Element1.src = window.URL.createObjectURL(stream);
-
-    document.appendChild(mp4Element1);
+    document.getElementById("call").srcObject = stream;
   });
 });
 

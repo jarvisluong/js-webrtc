@@ -32,12 +32,15 @@ function callPeerA() {
   mp4Element1.src = "video/p1.mp4";
   mp4Element1.autoplay = true;
 
-  var stream1 = mp4Element1.captureStream();
-  var call = peer.call("501bc9d4-b4c9-419e-b7e4-afe3740df432-PEER-A", stream1);
+  document.body.appendChild(mp4Element1);
 
-  setInterval(() => {
-    console.log({ isCalling: call.open });
-  }, 1000);
+  mp4Element1.onplay = () => {
+    var stream1 = mp4Element1.captureStream();
+    var call = peer.call(
+      "501bc9d4-b4c9-419e-b7e4-afe3740df432-PEER-A",
+      stream1
+    );
+  };
 }
 
 window.onload = () => {
