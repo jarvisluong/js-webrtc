@@ -47,10 +47,30 @@ function callPeerA() {
   };
 }
 
+function callPeerC() {
+  console.log("calling peer C");
+  var mp4Element1 = document.getElementById("call");
+  mp4Element1.src = "video/p1.mp4";
+
+  mp4Element1.onplay = () => {
+    var stream1 = mp4Element1.captureStream();
+    var call = peer.call(
+      "501bc9d4-b4c9-419e-b7e4-afe3740df432-PEER-C",
+      stream1
+    );
+    isCalling = true;
+  };
+}
+
 window.onload = () => {
   document.getElementById("callPeerA").addEventListener("click", (e) => {
     e.preventDefault();
     callPeerA();
+  });
+
+  document.getElementById("callPeerC").addEventListener("click", (e) => {
+    e.preventDefault();
+    callPeerC();
   });
 };
 
