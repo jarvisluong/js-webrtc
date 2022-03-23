@@ -12,7 +12,7 @@ peer.on("open", (id) => {
 peer.on("connection", (conn) => {
   setInterval(() => {
     conn.send(Math.floor(Math.random() * 4));
-  }, 1000);
+  }, 5000);
   conn.on("data", (data) => {
     console.log(data);
   });
